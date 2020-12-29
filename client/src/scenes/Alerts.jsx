@@ -28,38 +28,6 @@ const Alerts = () => {
 		deleted: false, form: { radius: 5, address: '' }, bounds: initialBounds ,
 		slider: initialSlider, sliderText: {} 
 	})
-
-	React.useEffect(() => {
-		const sliderText = {};
-		_.map(new Array(state.slider.max), (obj, i) => {
-			sliderText[i + 1] = `${state.slider.max - i} ${t.km}`;
-		});
-		setState(pv => ({ ...pv, sliderText }))
-		getAlerts();
-	}, [state.slider.max])
-
-	const getAlerts = () => {
-
-		return api
-			.get('/alert')
-			.then(result => {
-				let transparentLayer = leaflet.geoJSON();
-				if (result.data.length > 0) {
-					result.data.map(alert =>
-						leaflet.geoJSON(alert.geom).addTo(transparentLayer)
-					);
-					const layerBounds = transparentLayer.getBounds();
-					setState(pv => ({ ...pv,
-						bounds: [
-							layerBounds._southWest,
-							layerBounds._northEast
-						],
-						alerts: result.data
-					}));
-				}
-			})
-			.catch(error => setState(pv => ({ ...pv, error })));
-	}
     
 	const handleClose = () => {
 		setState(pv => ({

@@ -30,7 +30,7 @@ const AlertByCity = (props) => {
 				.then(result => {
 					setState({
 						treePlaces: result.data.map(tree_place => {
-							return { label: tree_place.PLACE };
+							return { label: tree_place.place };
 						})
 					});
 				})
@@ -91,7 +91,6 @@ const AlertByCity = (props) => {
 					</div>
 				</div>
 			</form>
-
 		</>
 	);
 }
