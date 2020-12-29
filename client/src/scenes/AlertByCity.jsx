@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import _ from "lodash";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import api from "../services/api";
 import t from "../locale/he_IL";
 import "./Plans.css";
@@ -22,33 +22,36 @@ const AlertByCity = (props) => {
 	// Hack - empty fuction
 	// This function is passed as props into FilterAutoCompleteMultiple component,
 	// as onFilterChange event, so it couldn't be deleted.
-	function handleFilterChange(selectedCounties) {}
+	function handleFilterChange(selectedCounties) { }
 
-	React.useEffect( () => {
-		async function fetchPlaces(){
+	React.useEffect(() => {
+		async function fetchPlaces() {
 			return api.get('/tree_place')
-			.then(result => {
-				setState({
-					treePlaces: result.data.map(tree_place => {
-						return { label: tree_place.PLACE};
-					})
-				});
-			})
-			.catch(error => setState({ error }));
+				.then(result => {
+					setState({
+						treePlaces: result.data.map(tree_place => {
+							return { label: tree_place.PLACE };
+						})
+					});
+				})
+				.catch(error => setState({ error }));
 		};
 		fetchPlaces();
-	} , [] );
+	}, []);
 
-	
-	function handleSubmit() { 
-		console.log('halle');
+
+	function handleSubmit() {
+		console.log('--------------submit alert by city-----------------');
 	};
-	
+
 	const { treePlaces, error, noData } = state;
 
 	return (
 		<>
-			<div className="rectangle" onSubmit={handleSubmit}>
+			<form className="rectangle" onSubmit={handleSubmit}>
+			{error && <div className="error-container">{error}</div>}
+			{noData && <div>אין כאן כלום</div>}
+
 				<h5 className="container-title">{t.newAlertTree}</h5>
 				{error && (
 					<div className="alert alert-danger" role="alert">
@@ -72,11 +75,23 @@ const AlertByCity = (props) => {
 
 				<div> * ישנן רשויות שלא זמינות לנו כרגע</div>
 				<div> תמכו בנו כדי שנוכל להגיע גם לעיר שלכם!</div>
+				<div className="row">
+					<div className="col">
+						<br />
+						<button
+							id="submitButton"
+							title="הוסף התראה"
+							disabled={state.loading}
+						>
+							הוספה
+								{state.loading && (
+								<FontAwesomeIcon icon="spinner" spin />
+							)}
+						</button>
+					</div>
+				</div>
+			</form>
 
-				{error && <div className="error-container">{error}</div>}
-				{noData && <div>אין כאן כלום</div>}
-
-			</div>
 		</>
 	);
 }

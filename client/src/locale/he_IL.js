@@ -9,7 +9,7 @@ export default {
 	vocabulary: 'מילון',
 	about: 'אודות',
 	meirimTitle: 'מידע תכנוני ואקטיביזם עירוני',
-	newAlert: ' התראה חדשה - תכניות בניה',
+	newAlert: 'תכניות בניה',
 	newAlertTree: 'רשיונות כריתה של עצים', 
 	emailAddress: 'כתובת דוא"ל',
 	fullName: 'שם מלא',
